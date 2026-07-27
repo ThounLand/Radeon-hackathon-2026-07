@@ -20,7 +20,7 @@ All five requested capabilities are implemented:
 
 | Capability | Implementation |
 |---|---|
-| Local knowledge retrieval (RAG) | Qdrant + BGE-M3 embeddings, verified legal corpus (127 points, 6 collections) |
+| Local knowledge retrieval (RAG) | Qdrant + BGE-M3 embeddings, verified legal corpus (127 points across 6 legal collections) |
 | Tool invocation | Declarative primitives; document generation (docx/PDF/Markdown) |
 | Multi-step task planning | Declarative workflow engine; accumulative drafting tasks |
 | Local multi-turn memory | Three tiers: Redis (hot) / Qdrant SVO (working) / Qdrant path (long-term) |
