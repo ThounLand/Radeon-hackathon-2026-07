@@ -271,8 +271,8 @@ Results on the validated configuration, 20 cases across 8 families:
 
 | Mode | Identical | Compatible | Contradictory | Correctness | Time |
 |---|---|---|---|---|---|
-| Sequential | 14–18 / 20 | 2–5 | 0–1 | **100% — 20/20 perfect** | 2m45–3m55 |
-| Parallel (6) | 17–18 / 20 | 2–3 | **0** | **100% — 20/20 perfect** | 44–50s |
+| Sequential | 14–18 / 20 | 1–5 | 0–2 | **100% — 20/20 perfect** | 2m45–3m55 |
+| Parallel (6) | 17–19 / 20 | 1–3 | **0** | **100% — 20/20 perfect** | 42–50s |
 
 Ranges, not single figures. Across runs the **form** of the answer varies; the
 **correctness** does not. See the Specification Document §6.2 and §6.4 for why form
@@ -283,7 +283,7 @@ several correct answers (a landlord's notice period differs for repossession, sa
 or location), so two runs may foreground different facets and both be right. This
 is precisely why stability and correctness are scored on separate axes.
 
-Concurrency gives a 3.4–3.9x speed-up with no loss of correctness, and no
+Concurrency gives a 3.4–4.1x speed-up with no loss of correctness, and no
 cross-session leakage — the isolation holds under load.
 
 ---
