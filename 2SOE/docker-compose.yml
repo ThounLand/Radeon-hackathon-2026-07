@@ -67,7 +67,7 @@ services:
       - "--tensor-parallel-size"
       - "${VLLM_TP:-2}"
       - "--max-model-len"
-      - "${VLLM_MAX_LEN:-32768}"
+      - "${VLLM_MAX_LEN:-8192}"
       - "--gpu-memory-utilization"
       - "0.92"
       - "--port"

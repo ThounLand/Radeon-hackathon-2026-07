@@ -133,7 +133,7 @@ export AMDGPU_TARGETS=$PYTORCH_ROCM_ARCH
 
 vllm serve mistralai/Mistral-7B-Instruct-v0.3 \
   --tensor-parallel-size 1 \
-  --max-model-len 32768 \
+  --max-model-len 8192 \
   --gpu-memory-utilization 0.92 \
   --host 0.0.0.0 --port 8000 &
 
@@ -142,8 +142,10 @@ until curl -sf http://127.0.0.1:8000/v1/models >/dev/null; do sleep 5; done
 
 **`--tensor-parallel-size` must match the number of GPUs actually present** —
 check with `rocm-smi --showproductname`, do not assume the default.
-`--max-model-len 32768` is the ceiling for Mistral 7B; a larger value is rejected
-at start-up with a message that appears to blame the configuration.
+`--max-model-len` is sized to the workload, not to the model ceiling: a legal
+consultation serves around 9,000 tokens of context, so 8192 is the default here.
+32768 is the ceiling for Mistral 7B; a larger value is rejected at start-up with
+a message that appears to blame the configuration.
 
 Where `huggingface.co` is unreachable:
 
