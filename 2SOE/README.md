@@ -319,6 +319,21 @@ own token. Only the extracted legal reference is ever sent; never the user promp
 
 ## 7. Architecture in one page
 
+**This engine was written from scratch.** An existing agentic framework would
+have provided composition too — but by handing it to the model: which tool to
+call, how many times to loop. What must be guaranteed would have become
+emergent, and that loop requires a model whose infrastructure is out of reach
+for a law firm. Here the sequence is a file: a 135-line engine, JSON workflows
+you can open and read, 23 primitives with a single contract.
+
+**Everything that defines behaviour is declarative.** The workflow, the skills,
+the document templates, the access profiles, the sensitive-domain firewall, the
+corpus itself — all JSON; the security socle and the behavioural fragments live
+as vectors in Qdrant. The engine knows nothing about law: it reads a program and
+runs it. Changing business domain means changing data, not code. Several of
+these files are re-read on every request, so a firewall rule or an access
+profile can be adjusted without restarting anything.
+
     browser -> auth (JWT) -> relay ------------------> vLLM (Mistral 7B, 2x R9700)
                  |             |
                  |             +-- workflow engine (declarative JSON)
