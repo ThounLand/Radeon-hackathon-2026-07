@@ -9,6 +9,9 @@ Contact: [github.com/ThounLand](https://github.com/ThounLand) ·
 
 **AMD AI DevMaster Hackathon — Track 2: Development & Local Deployment of Private AI Agents**
 
+**▶ Demonstration video (4 min): https://youtu.be/DUxTtCCJG9Y**
+**▶ Unedited W7900 native deployment capture (40 s): https://youtu.be/meM1-1A_l4w**
+
 A fully local, private AI agent for French real-estate law. Runs entirely on AMD
 Radeon GPUs with ROCm — no remote API, no cloud dependency for core inference.
 

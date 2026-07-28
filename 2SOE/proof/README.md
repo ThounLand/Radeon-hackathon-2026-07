@@ -10,6 +10,10 @@ annotation is involved, and no case is scored on the model's prose.
 
 ---
 
+> **A 40-second unedited capture of the W7900 runs** — hardware, environment
+> and both benchmarks — is available at https://youtu.be/meM1-1A_l4w
+> It also shows the 91 % run described at the bottom of this page.
+
 ## What each file proves
 
 | File | Mode | Hardware | Correctness | Time |
