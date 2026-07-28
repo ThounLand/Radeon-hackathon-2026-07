@@ -2,6 +2,11 @@
 
 *Team 2SIN — Souveraineté, Sécurité et Indépendance Numérique*
 
+*Built by Thierry Rolland, alias Thoun — engineer, fifteen years of critical IT
+infrastructure, now focused on sovereign local AI.
+Contact: [github.com/ThounLand](https://github.com/ThounLand) ·
+[malt.fr/profile/thierryrolland](https://www.malt.fr/profile/thierryrolland)*
+
 **AMD AI DevMaster Hackathon — Track 2: Development & Local Deployment of Private AI Agents**
 
 A fully local, private AI agent for French real-estate law. Runs entirely on AMD
@@ -285,7 +290,7 @@ several correct answers (a landlord's notice period differs for repossession, sa
 or location), so two runs may foreground different facets and both be right. This
 is precisely why stability and correctness are scored on separate axes.
 
-Concurrency gives a 3.4–4.1x speed-up with no loss of correctness, and no
+Concurrency gives a 3.4–4.2x speed-up with no loss of correctness, and no
 cross-session leakage — the isolation holds under load.
 
 ---
@@ -357,10 +362,13 @@ vLLM for gfx1201 · Python 3.12-slim · Node 20-alpine
 
 ## 9. Credits
 
-The vLLM container image for Radeon R9700 (gfx1201) comes from the open-source work
+The vLLM container image for Radeon R9700 (gfx1201) builds on the open-source work
 of **Donato Capitella (kyuz0)** — see
-[amd-r9700-vllm-toolboxes](https://github.com/kyuz0/amd-r9700-vllm-toolboxes).
-Without it, running vLLM on this architecture would not have been possible.
+[amd-r9700-vllm-toolboxes](https://github.com/kyuz0/amd-r9700-vllm-toolboxes). The
+public image is shipped as the default here, so that the stack reproduces identically
+on any gfx1201 machine; a derived in-house image is used in development.
+Without that upstream work, running vLLM on this architecture would have been far
+harder.
 
 Legal corpus verified against **Légifrance**, the official French legal publication
 service.

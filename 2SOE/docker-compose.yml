@@ -227,6 +227,7 @@ services:
   postgres:
     image: postgres:16-alpine
     container_name: postgres-2sin
+    restart: unless-stopped
     environment:
       POSTGRES_USER: "2sin"
       POSTGRES_PASSWORD: "${PG_PASSWORD:-changeme_2sin}"
@@ -244,6 +245,7 @@ services:
   auth:
     build: ./auth
     container_name: 2sin-auth
+    restart: unless-stopped
     environment:
       AUTH_PORT: "8080"
       JWT_SECRET: "${JWT_SECRET:-dev_secret_change_in_prod}"
