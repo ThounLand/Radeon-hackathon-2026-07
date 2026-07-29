@@ -63,6 +63,22 @@ def _llm(sys,q,maxt=350):
     m=r["choices"][0]["message"]
     return (m.get("content") or "")+" "+(m.get("reasoning") or "")
 
+def _elliptique(question):
+    """Une demande est elliptique si elle ne porte pas son sujet : trop peu de
+    termes signifiants pour se suffire. Meme mesure que la decidabilite RAG."""
+    try:
+        from corpus import _termes_porteurs as _tp
+    except Exception:
+        try:
+            from primitives.corpus import _termes_porteurs as _tp
+        except Exception:
+            return False
+    try:
+        return len(_tp(question or "")) < int(os.environ.get("RAG_TERMES_MIN", "3"))
+    except Exception:
+        return False
+
+
 def mesurer_intention(entree, ctx):
     """entree = question (str). Contexte technique dans ctx['contexte'] pour heritage elliptique."""
     _init_vecs()
@@ -127,7 +143,14 @@ def mesurer_intention(entree, ctx):
             domaine=r["domaine"]; motivation=r.get("motivation","")
 
     # --- INTENTION : LLM local, encadre par le contexte + motivation ---
-    ctx_txt = ("Contexte : "+", ".join("%s=%s"%(k,v) for k,v in contexte.items())+"\n") if contexte else ""
+    # INJECTION CONDITIONNEE. Le contexte n'est montre au modele que si la
+    # demande est ELLIPTIQUE. Sinon il le RECOPIAIT : mesure du 29/07, « quel
+    # est le montant du depot de garantie » heritait du sujet « delai de
+    # preavis » du tour precedent, et ce sujet perime se propageait ensuite a
+    # tous les tours (il est ecrit en memoire, donc reinjecte au suivant).
+    # Le caractere elliptique se MESURE ; il n'a pas a etre juge par le modele.
+    ctx_txt = ("Contexte : "+", ".join("%s=%s"%(k,v) for k,v in contexte.items())+"\n") \
+              if (contexte and _elliptique(q)) else ""
     mot_txt = ("Arbitrage : "+motivation+"\n") if motivation else ""
     sys_int=(ctx_txt+mot_txt+
         "Tache : classer l'intention d'une demande juridique (domaine deja identifie: %s).\n"%domaine+
@@ -148,7 +171,13 @@ def mesurer_intention(entree, ctx):
     return {
         "domaine": domaine,
         "intention": ("redaction" if _RE_REDACTION.search(q) else ri.get("intention","na")),
-        "sujet": ri.get("sujet") or contexte.get("sujet",""),
+        # HERITAGE ELLIPTIQUE CONDITIONNE. Le repli sur le sujet du contexte
+        # etait INCONDITIONNEL : voyant un contexte, le modele n'en renvoyait
+        # plus, et le sujet du PREMIER tour se propageait a tous les suivants
+        # (mesure 29/07 : « quel est le montant du depot de garantie » heritait
+        # de « delai de preavis »). Le caractere elliptique se MESURE -- il n'a
+        # pas a etre laisse au modele.
+        "sujet": ri.get("sujet") or (contexte.get("sujet","") if _elliptique(q) else ""),
         "_ambigu": ambigu,
         "_motivation": motivation,
         "_top": [[round(top1[0],3),top1[1]],[round(top2[0],3),top2[1]]],
