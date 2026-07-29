@@ -1,7 +1,7 @@
 {
   "nom": "qualifier_acte",
   "version": "1.0",
-  "_doctrine": "Skill d'APPLICATION. Les ECRITURES de memoire sont des etapes VISIBLES : ouvrir/rattacher la tache n'est plus enfoui dans la selection ni dans l'extraction (doc 66).",
+  "_doctrine": "Skill d'APPLICATION. Les ECRITURES de memoire sont des etapes VISIBLES : ouvrir/rattacher la tache n'est plus enfoui dans la selection ni dans l'extraction.",
   "etapes": [
     {
       "id": "selection",
