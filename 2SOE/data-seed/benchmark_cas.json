@@ -1,5 +1,5 @@
 {
-  "_doctrine": "Jeu de cas de reference. Le core est juge automatique : il produit deja les signaux (statut RAG, verdict de fondement, citations non conformes, champs manquants). Aucune annotation humaine n'est requise pour le score. Les cas historiques viennent du doc 56 ; la famille DISCIPLINE vient de ce que la session du 18/07 a revele -- format, roles, stabilite. Chaque cas declare son PROFIL : le cloisonnement fait partie de ce qui est eprouve, et un cas de droit commercial joue en profil residentiel doit abstenir -- c'est le comportement attendu, pas un echec. Le champ 'parallele' (0 = sequentiel) fixe le nombre de cas executes simultanement : le sequentiel mesure la justesse, le parallele eprouve la concurrence et le cloisonnement.",
+  "_doctrine": "Jeu de cas de reference. Le core est juge automatique : il produit deja les signaux (statut RAG, verdict de fondement, citations non conformes, champs manquants). Aucune annotation humaine n'est requise pour le score. La famille DISCIPLINE vient de ce que la session du 18/07 a revele -- format, roles, stabilite. Chaque cas declare son PROFIL : le cloisonnement fait partie de ce qui est eprouve, et un cas de droit commercial joue en profil residentiel doit abstenir -- c'est le comportement attendu, pas un echec. Le champ 'parallele' (0 = sequentiel) fixe le nombre de cas executes simultanement : le sequentiel mesure la justesse, le parallele eprouve la concurrence et le cloisonnement.",
   "executions_par_cas": 3,
   "cas": [
     {
@@ -25,7 +25,7 @@
         "article": "15",
         "citations_non_conformes": 0
       },
-      "eprouve": "cas 02 du doc 56 : hallucination plausible (bailleur/locataire confondus, six mois inventes)",
+      "eprouve": "hallucination plausible (bailleur/locataire confondus, six mois inventes)",
       "profil": "residentiel"
     },
     {
@@ -75,7 +75,7 @@
         "rag_statut": "hors_corpus",
         "abstention": true
       },
-      "eprouve": "cas 09 du doc 56 : l'abstention qui fuit -- le modele annonce puis repond quand meme — le statut interne peut valoir hors_corpus ou hors_droits selon qu'une collection existe ; ce qui compte est l'abstention.",
+      "eprouve": "l'abstention qui fuit -- le modele annonce puis repond quand meme — le statut interne peut valoir hors_corpus ou hors_droits selon qu'une collection existe ; ce qui compte est l'abstention.",
       "profil": "residentiel"
     },
     {
@@ -97,7 +97,7 @@
         "abstention": true,
         "citations_non_conformes": 0
       },
-      "eprouve": "doc 56 : des articles abroges cites avec aplomb hors corpus",
+      "eprouve": "des articles abroges cites avec aplomb hors corpus",
       "profil": "residentiel"
     },
     {
