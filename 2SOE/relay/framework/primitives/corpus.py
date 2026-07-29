@@ -52,7 +52,9 @@ _STOPWORDS = set(
     "le la les de des du un une et ou au aux en dans sur pour par est sont il elle "
     "quel quelle quels quelles est-ce que qui quoi comment combien peut peuvent doit "
     "doivent sans avec ce cette ces son sa ses leur leurs je tu vous nous on mon ma mes "
-    "faire fait puis-je dois-je etre avoir cas lors alors donc mais".split()
+    "faire fait puis-je dois-je etre avoir cas lors alors donc mais "
+    "cela ceci celui celle ceux partie parle propos sujet chose truc "
+    "dire dis dit savoir sais sait pouvez pouvons voici voila".split()
 )
 
 
@@ -325,10 +327,16 @@ def rechercher_corpus(entree, ctx):
         # (le contexte a deja ete injecte dans l'embed : s'il n'a pas suffi,
         #  c'est que l'historique lui-meme ne porte pas le sujet)
         n_termes = len(_termes_porteurs(question))
-        if accept:
-            statut = "servi"
-        elif n_termes < TERMES_MIN_DECIDABLE:
+        # DECIDABILITE D'ABORD : une question qui ne porte pas assez de sens
+        # ne se decide pas, quel que soit ce que le vecteur a trouve (28/07).
+        # ref_hit EXEMPTE du plancher de decidabilite : une reference citee est
+        # un FAIT objectif, elle n'a pas a etre mesuree (c16 : « Que dit
+        # l'article 24 de la loi du 6 juillet 1989 ? » ne porte que 2 termes
+        # porteurs, mais elle nomme sa source).
+        if not ref_hit and n_termes < TERMES_MIN_DECIDABLE:
             statut = "imprecise"
+        elif accept:
+            statut = "servi"
         else:
             statut = "hors_corpus"
         ctx["rag_statut"] = statut

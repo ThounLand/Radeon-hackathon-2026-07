@@ -508,7 +508,8 @@ def traiter_via_moteur(question, session_id, base_url="", profil=None):
     try:
         from primitives.memoire import (naviguer_chemin, enregistrer_chemin,
                                          detecter_rappel, rappeler_chemin_long,
-                                         archiver_chemin_long, longueur_chemin)
+                                         archiver_chemin_long, longueur_chemin,
+                                         dernier_tour)
         from primitives.svo import archiver_svo
         rappel = naviguer_chemin(session_id, question)
         if rappel:
@@ -538,6 +539,24 @@ def traiter_via_moteur(question, session_id, base_url="", profil=None):
                                 "session": session_id,
                                 "profil": profil_actif,
                                 "complexite": "simple"})
+    # SECONDE PASSE -- la demande ne se decide pas SEULE, mais un tour precedent
+    # existe. On rejoue le workflow ENTIER sur la question concatenee, comme si
+    # l'utilisateur avait tout ecrit d'un coup : firewall, domaine, droits, RAG.
+    # Constate le 28/07 : « cela fait partie de quel article », posee apres une
+    # question de legitime defense, recevait un corpus de copropriete. La meme
+    # demande ecrite en UN tour rend hors_droits -- le bon comportement.
+    # UNE SEULE reprise : si le resultat reste imprecis, on demande.
+    if ctx.get("rag_statut") == "imprecise":
+        try:
+            _prec = dernier_tour(session_id)
+        except Exception:
+            _prec = None
+        if _prec and _prec.strip().lower() != question_moteur.strip().lower():
+            ctx = _MOTEUR.executer(wf, {"question": _prec + " " + question_moteur,
+                                        "session": session_id,
+                                        "profil": profil_actif,
+                                        "complexite": "simple"})
+            ctx["_reprise_enrichie"] = True
     ctx["_workflow_nom"] = os.path.basename(_WF_PATH).replace(".json", "")
     try:
         from primitives.journal import journaliser as _journaliser
