@@ -296,6 +296,30 @@ is precisely why stability and correctness are scored on separate axes.
 Concurrency gives a 3.4–4.2x speed-up with no loss of correctness, and no
 cross-session leakage — the isolation holds under load.
 
+### Two helper tools
+
+`scripts/run_bench.py` wraps the benchmark: it takes the mode as a parameter and
+keeps results out of `/tmp`, which does not survive a restart.
+
+    python3 scripts/run_bench.py seq              # sequential
+    python3 scripts/run_bench.py mul 6            # 6 concurrent
+    python3 scripts/run_bench.py seq --repeter 3  # three runs in a row
+    python3 scripts/run_bench.py --lister         # what has been recorded
+
+Results land in `~/mesures-2sin/`, timestamped, with mode and duration added.
+Each run is diffed against the previous one — useful after changing anything in
+the core. Use `--sortie` for a different folder.
+
+`scripts/lint_workflow.py` checks a workflow **before** running it:
+
+    python3 scripts/lint_workflow.py --tous
+
+It catches what fails silently at runtime: an unknown primitive is skipped
+without error, a misspelled `$path` resolves to None, a literal in quotes makes
+a condition permanently false, a producer placed after its consumer. It cannot
+check what depends on runtime values — condition exclusivity, the input shape
+each primitive expects.
+
 ---
 
 ## 6. Configuration
